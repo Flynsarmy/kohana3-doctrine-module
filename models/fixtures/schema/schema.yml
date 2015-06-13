@@ -1,0 +1,105 @@
+User:
+  tableName: users
+  columns:
+    username:
+      type: string(50)
+      unique: true
+      minlength: 3
+      email: true
+    password:
+      type: string(50)
+      minlength: 5
+    logins:
+      type: integer(4)
+      default: 0
+    created_on:
+      type: integer(4)
+    last_login:
+      type: integer(4)
+      default: 0
+  indexes:
+    created_on_index:
+      fields: [created_on]
+    last_login_index:
+      fields: [last_login]
+      
+# Auth & Session Modules
+UserToken:
+  tableName: user_tokens
+  columns:
+    user_id: integer(4)
+    tbl:
+      type: string(255)
+      default: User
+    user_agent: string(40)
+    token:
+      type: string(32)
+      unique: true
+    created: integer(4)
+    expires: integer(4)
+  indexes:
+    fk_user_id:
+      fields:
+        user_id: []
+  relations:
+    User:
+      type: one
+      foreignType: many
+      foreignAlias: UserTokens
+      local: user_id
+      foreign: id
+      cascade: [delete]
+    
+Role:
+  tableName: roles
+  columns:
+    name:
+      type: string(32)
+      unique: true
+    description: string(255)
+  relations:
+    User:
+      type: many
+      foreignType: many
+      refClass: UserRole
+      alias: Users
+      foreignAlias: Roles
+      local: role_id
+      foreign: user_id
+  
+UserRole:
+  tableName: roles_users
+  columns:
+    user_id:
+      type: integer(4)
+      primary: true
+    role_id:
+      type: integer(4)
+      primary: true
+  relations:
+    User:
+      type: one
+      local: user_id
+      foreign: id
+      alias: User
+      foreignAlias: UserRoles
+      cascade: [delete]
+    Role:
+      type: one
+      local: role_id
+      foreign: id
+      alias: Role
+      foreignAlias: UserRoles
+      
+Sessions:
+  tableName: sessions
+  columns:
+    session_id:
+      type: string(24)
+      primary: true
+    last_active: integer(4)
+    contents: string
+  indexes:
+    last_active_index:
+      fields: [last_active]
+#End Auth & Session Modules

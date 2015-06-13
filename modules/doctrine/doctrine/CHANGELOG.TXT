@@ -1,0 +1,6 @@
+1.5:
+- Merged Auth and Session drivers
+- Moved doctrine folder into /classes/vendor
+- Moved custom behaviours and hydrators into /classes/doctrine
+- Added PDO support
+- Moved models to /models

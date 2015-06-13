@@ -1,0 +1,10 @@
+#auth module
+Role:
+  Role_Login:
+    id: 1
+    name: login
+    description: Login privileges, granted after account confirmation
+  Role_Admin:
+    id: 2
+    name: admin
+    description: Administrative user, has access to everything.
